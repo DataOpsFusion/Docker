@@ -1,0 +1,31 @@
+name: postgresql-phpAdmin
+
+services:
+  postgresql:
+    image: postgres:latest
+    restart: always
+    container_name: postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=admin
+    networks:
+      - postgresql-network
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    container_name: php-adminer
+    ports:
+      - 8080:8080
+    networks:
+      - postgresql-network
+    depends_on:
+      - postgresql
+
+networks:
+  postgresql-network:
