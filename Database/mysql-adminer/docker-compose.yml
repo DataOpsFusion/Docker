@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_DATABASE=admin
+    networks:
+      - mysql-network
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    restart: always
+    container_name: php-adminer
+    ports:
+      - 8080:8080
+    networks:
+      - mysql-network
+    depends_on:
+      - mysql
+
+networks:
+  mysql-network:
+
+
+volumes:
+  mysql-data:

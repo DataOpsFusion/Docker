@@ -1,21 +1,21 @@
-name: mongodb-express
+version: "3.9"
 
 services:
   mongodb:
-    image: mongodb:latest
+    image: mongo:latest
     restart: always
     container_name: mongodb
     ports:
       - 27017:27017
     volumes:
-      - ./data:/data/db
+      - mongodb-data:/data/db
     networks:
       - mongodb-network
-  
-  mongodb-express:
+
+  mongo-express:
     image: mongo-express:latest
     restart: always
-    container_name: db-express
+    container_name: mongo-express
     ports:
       - 8081:8081
     environment:
@@ -30,3 +30,7 @@ services:
 
 networks:
   mongodb-network:
+
+
+volumes:
+  mongodb-data:

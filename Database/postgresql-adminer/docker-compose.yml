@@ -1,4 +1,4 @@
-name: postgresql-phpAdmin
+version: "3.9"
 
 services:
   postgresql:
@@ -14,7 +14,7 @@ services:
     networks:
       - postgresql-network
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - postgresql-data:/var/lib/postgresql/data
 
   adminer:
     image: adminer
@@ -29,3 +29,7 @@ services:
 
 networks:
   postgresql-network:
+
+
+volumes:
+  postgresql-data:

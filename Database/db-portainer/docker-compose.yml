@@ -1,0 +1,114 @@
+version: "3.9" # Recommended to explicitly define version
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    restart: always
+    container_name: portainer
+    ports:
+      - 9443:9443
+      - 8000:8000
+    networks:
+      - portainer-network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer-data:/data
+
+  postgresql:
+    image: postgres:latest
+    restart: always
+    container_name: postgres
+    ports:
+      - 5432:5432
+    networks:
+      - portainer-network
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=admin
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  neo4j:
+    image: neo4j:latest
+    restart: always
+    container_name: neo4j
+    ports:
+      - 7474:7474
+      - 7687:7687
+    networks:
+      - portainer-network
+    environment:
+      - NEO4J_AUTH=neo4j/admin
+      - NEO4J_dbms_memory_heap_initial__size=512m
+      - NEO4J_dbms_memory_heap_max__size=512m
+      - NEO4J_dbms_memory_pagecache_size=512m
+    volumes:
+      - neo4j-data:/data
+
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: redis
+    ports:
+      - 6379:6379
+    networks:
+      - portainer-network
+    volumes:
+      - redis-data:/data
+
+  mysql:
+    image: mysql:latest
+    restart: always
+    container_name: mysql
+    ports:
+      - 3306:3306
+    networks:
+      - portainer-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_DATABASE=admin
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  mongodb:
+    image: mongo:latest
+    restart: always
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    networks:
+      - portainer-network
+    volumes:
+      - mongodb-data:/data/db
+
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    container_name: mariadb
+    ports:
+      - 3307:3306
+    networks:
+      - portainer-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_DATABASE=admin
+    volumes:
+      - mariadb-data:/var/lib/mysql
+
+networks:
+  portainer-network:
+
+
+volumes:
+  portainer-data:
+  postgres-data:
+  neo4j-data:
+  redis-data:
+  mysql-data:
+  mongodb-data:
+  mariadb-data:
